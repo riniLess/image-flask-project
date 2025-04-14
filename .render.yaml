@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: flask-image-app
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    branch: main

@@ -10,13 +10,13 @@ import numpy as np
 from keras.src.applications.mobilenet_v2 import preprocess_input, decode_predictions
 
 def clear_uploads_dir(uploads_dir):
-    """Очистка и создание папки uploads."""
+    #Очистка и создание папки uploads
     if os.path.exists(uploads_dir):
         shutil.rmtree(uploads_dir)
     os.makedirs(uploads_dir, exist_ok=True)
 
 def split_image(img_path):
-    """Разделение изображения на 4 части."""
+    #Разделение изображения на 4 части
     img = Image.open(img_path)
     width, height = img.size
     return [
@@ -27,7 +27,7 @@ def split_image(img_path):
     ]
 
 def generate_histograms(img_path, save_dir):
-    """Создание гистограмм для изображения."""
+    #Создание гистограмм для изображения
     img = Image.open(img_path)
     filename = os.path.basename(img_path)
     prefix = os.path.splitext(filename)[0]
@@ -43,7 +43,7 @@ def generate_histograms(img_path, save_dir):
         plt.close()
 
 def verify_recaptcha(recaptcha_response, secret_key):
-    """Проверка reCAPTCHA."""
+    #Проверка reCAPTCHA
     payload = {'secret': secret_key, 'response': recaptcha_response}
     try:
         response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload, timeout=5)
@@ -54,7 +54,7 @@ def verify_recaptcha(recaptcha_response, secret_key):
         return False
 
 def classify_image(img_path, model):
-    """Классификация изображения с помощью MobileNetV2."""
+    #Классификация изображения с помощью MobileNetV2
     img = Image.open(img_path).resize((224, 224))
     img_array = np.array(img)
     img_array = preprocess_input(img_array)

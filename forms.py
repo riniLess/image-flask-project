@@ -6,6 +6,6 @@ from flask_wtf.file import FileAllowed
 class UploadForm(FlaskForm):
     image = FileField('Image', validators=[
         DataRequired(),
-        FileAllowed(['jpg', 'png'], 'Only JPG or PNG files are allowed!')
+        FileAllowed(['jpg', 'png'], 'Только JPG или PNG!')
     ])
     submit = SubmitField('Upload')
