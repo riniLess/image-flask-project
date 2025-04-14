@@ -1,13 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>$Title$</title>
+    <title>Загрузка изображения</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .g-recaptcha {
+            margin: 10px 0;
+            text-align: center;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        input[type="submit"]:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .errors {
+            color: #dc3545;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-align: center;
+        }
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .success-message {
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <div class="container">
+        <h1>Загрузите изображение</h1>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <p class="success-message" id="recaptcha-success">reCAPTCHA успешно пройдена!</p>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            {{ form.image() }}
+            {% if form.image.errors %}
+                <ul class="errors">
+                    {% for error in form.image.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <div class="g-recaptcha"
+                 data-sitekey="6Lel9hArAAAAACCyk20MB6bhyd-8cTXels0a70vB"
+                 data-callback="onRecaptchaSuccess"></div>
+
+            {{ form.submit(disabled=True, id="submit-button") }}
+        </form>
+    </div>
+
+    <script>
+        function onRecaptchaSuccess(token) {
+            console.log('reCAPTCHA verified:', token);
+            document.getElementById('recaptcha-success').style.display = 'block';
+            document.getElementById('submit-button').disabled = false;
+        }
+    </script>
 </body>
 </html>

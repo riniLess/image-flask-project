@@ -1,0 +1,11 @@
+flask
+pillow
+matplotlib
+tensorflow
+Flask-ReCaptcha
+gunicorn
+Flask-WTF
+numpy
+h5py
+wtforms
+requests
